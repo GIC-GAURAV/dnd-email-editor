@@ -122,12 +122,12 @@ export class AppComponent {
   drop(event: CdkDragDrop<string[]>) {
     
     if (event.previousContainer === event.container) {
-      console.log(event)
+      //console.log(event)
       moveItemInArray(event.container.data,
         event.previousIndex,
         event.currentIndex);
     } else {
-      console.log(event);
+      //console.log(event);
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex, event.currentIndex);
@@ -135,15 +135,12 @@ export class AppComponent {
         if(this.todos.length < 4){
           this.todos.splice(event.previousIndex, 0, this.completed[event.currentIndex])
         }
-        // if(this.todos[event.currentIndex])
-        console.log(this.sectionList[event.currentIndex])
-        console.log(this.sectionList)
-        // if(this.sectionList.length < 7){
-        //   this.sectionList.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-        // }
-        // this.controlsData.push(event.container.data[event.container.data.length - 1])
+        if(this.sectionList.length < 7){
+          this.sectionList.splice(event.previousIndex, 0, this.completed[event.currentIndex])
+        }
+        this.controlsData.push(event.container.data[event.container.data.length - 1])
     }
-    console.log(this.todos)
+    console.log(this.controlsData)
   }
 
   Apply(){

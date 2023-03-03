@@ -1,12 +1,14 @@
 <div cdkDrag>
   <div class="example-container box">
     <div cdkDropList [cdkDropListData]="completed" class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let complete of completed" cdkDrag>
+      <div class="example-box" *ngFor="let item of completed" cdkDrag>
         <div contenteditable="true" onfocus="this.focus()"
-          *ngIf="complete.controlType === 'paragraph'" [ngStyle]="complete.styles" (click)="onSelection(complete, i)">
+          *ngIf="item.controlType === 'paragraph'" [ngStyle]="item.styles" (click)="onSelection(item, i)">
           Lorem, ipsum...</div>
-        <div contenteditable="true" onclick='this.focus()' *ngIf="complete.controlType === 'heading'"
-          [ngStyle]="complete.styles" (click)="onSelection(complete, i)">Heading</div>
+        <div contenteditable="true" onclick='this.focus()' *ngIf="item.controlType === 'heading'"
+          [ngStyle]="item.styles" (click)="onSelection(item, i)">Heading</div>
+          <div contenteditable="true" onclick='this.focus()' *ngIf="item.controlType === 'image'"
+          [ngStyle]="item.styles" (click)="onSelection(item, i)">Image</div>
       </div>
     </div>
   </div>

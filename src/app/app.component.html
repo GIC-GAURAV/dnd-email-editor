@@ -13,7 +13,7 @@
         <div *ngFor="let complete of completed; let i = index" cdkDrag>
             <section *ngIf="complete.controlType === 'section'" [class]="'grid-'+complete.sectionType">
               <ng-container *ngFor="let sectionCount of getSectionLength(complete.innerItemCount)">
-                <app-inner-item cdkDropListGroup [completed]="completed" [todos]="todos" [complete]="complete"></app-inner-item>
+                <app-inner-item cdkDropListGroup [completed]="completed" [todos]="todos"></app-inner-item>
               </ng-container>
             </section>
         </div>
@@ -34,8 +34,7 @@
            >
         
       <div class="ng-container" *ngFor="let todo of todos">
-        <!-- {{todo |json }} -->
-        <mat-card *ngIf="todo.display" cdkDrag class="component">
+        <mat-card cdkDrag class="component" [ngStyle]="{'display': (!todo.display) ? 'none' : ''}">
           <div class="component-list" >
             <span class="component-icon">
               <!-- <svg *ngIf="todo.controlType === 'section' " aria-hidden="true" focusable="false" data-prefix="fal" data-icon="columns-3" class="svg-inline--fa fa-columns-3 fa-3x " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M0 96C0 60.65 28.65 32 64 32H576C611.3 32 640 60.65 640 96V416C640 451.3 611.3 480 576 480H64C28.65 480 0 451.3 0 416V96zM448 448H576C593.7 448 608 433.7 608 416V96C608 78.33 593.7 64 576 64H448V448zM416 64H224V448H416V64zM192 448V64H64C46.33 64 32 78.33 32 96V416C32 433.7 46.33 448 64 448H192z"></path></svg> -->

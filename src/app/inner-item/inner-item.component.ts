@@ -12,7 +12,6 @@ export class InnerItemComponent implements OnInit {
   constructor() { }
   @Input('completed') completed : any
   @Input('todos') todos : any
-  @Input('complete') complete : any
   controlsData : any = []
   selectedElement:any
   color:any
@@ -44,7 +43,7 @@ export class InnerItemComponent implements OnInit {
         event.previousIndex, event.currentIndex);
         console.log(this.completed)
         this.todos.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-          this.controlsData.push(event.container.data[event.container.data.length - 1])
+        this.controlsData.push(event.container.data[event.container.data.length - 1])
     }
   }
 
