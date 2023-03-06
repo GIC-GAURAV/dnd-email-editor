@@ -5,3 +5,9 @@
     padding: 5px;
     box-sizing: border-box;
   }
+  .example-list{
+    height: 100%;
+  }
+  .example-box{
+    height: 100%;
+  }

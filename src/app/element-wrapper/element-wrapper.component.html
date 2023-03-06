@@ -1,0 +1,9 @@
+<div *ngFor="let item2 of values">
+  <div contenteditable="true" onfocus="this.focus()" *ngIf="item2.controlType === 'paragraph'" [ngStyle]="item2.styles"
+    (click)="onSelection(item2, i)">
+    Lorem, ipsum...</div>
+  <div contenteditable="true" onclick='this.focus()' *ngIf="item2.controlType === 'heading'" [ngStyle]="item2.styles"
+    (click)="onSelection(item2, i)">Heading</div>
+  <div contenteditable="true" onclick='this.focus()' *ngIf="item2.controlType === 'image'" [ngStyle]="item2.styles"
+    (click)="onSelection(item2, i)">Image</div>
+</div>

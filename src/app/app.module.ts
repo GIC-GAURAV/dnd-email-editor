@@ -7,10 +7,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { InnerItemComponent } from './inner-item/inner-item.component';
+import { ParentComponent } from './parent/parent.component';
+import { ElementWrapperComponent } from './element-wrapper/element-wrapper.component';
 @NgModule({
   declarations: [
     AppComponent,
-    InnerItemComponent
+    InnerItemComponent,
+    ParentComponent,
+    ElementWrapperComponent
   ],
   imports: [
     BrowserModule,

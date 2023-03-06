@@ -58,54 +58,62 @@ export class AppComponent {
     sectionType:1,
     sectionName:'First',
     innerItemCount:1,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:2,
     sectionName:'Second',
     innerItemCount:2,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:3,
     sectionName:'three',
     innerItemCount:3,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:4,
     sectionName:'Four',
     innerItemCount:4,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:5,
     sectionName:'Five',
     innerItemCount:5,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:6,
     sectionName:'Six',
     innerItemCount:2,
-    display : false
+    display : false,
+    component : []
   },
   {
     controlType:'section',
     sectionType:7,
     sectionName:'Seven',
     innerItemCount:2,
-    display : false
+    display : false,
+    component : []
   }
 
 ]
 
   completed = [];
+
   selectedElement:any
   color:any
   bgcolor:any
@@ -119,29 +127,30 @@ export class AppComponent {
     'number'
   ]
   inputtype:any
-  drop(event: CdkDragDrop<string[]>) {
+  // drop(event: CdkDragDrop<string[]>) {
     
-    if (event.previousContainer === event.container) {
-      //console.log(event)
-      moveItemInArray(event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    } else {
-      //console.log(event);
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex, event.currentIndex);
-        // console.log(this.completed)
-        if(this.todos.length < 4){
-          this.todos.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-        }
-        if(this.sectionList.length < 7){
-          this.sectionList.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-        }
-        this.controlsData.push(event.container.data[event.container.data.length - 1])
-    }
-    console.log(this.controlsData)
-  }
+  //   if (event.previousContainer === event.container) {
+  //     //console.log(event)
+  //     moveItemInArray(event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex);
+  //   } else {
+  //     console.log(event);
+  //     console.log(event.container.data[event.container.data.length - 1])
+  //     transferArrayItem(event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex, event.currentIndex);
+  //       console.log(this.completed)
+  //       if(this.todos.length < 4){
+  //         this.todos.splice(event.previousIndex, 0, this.completed[event.currentIndex])
+  //       }
+  //       if(this.sectionList.length < 7){
+  //         this.sectionList.splice(event.previousIndex, 0, this.completed[event.currentIndex])
+  //       }
+  //       this.controlsData.push(event.container.data[event.container.data.length - 1])
+  //   }
+  //   console.log(this.controlsData)
+  // }
 
   Apply(){
     console.log(this.selectedElement)
@@ -156,12 +165,7 @@ export class AppComponent {
   }
 
   selectedIndex:any
-  onSelection(event, index){
-    console.log(event, index)
-    this.resetStyling()
-    this.selectedElement = JSON.parse(JSON.stringify(event))
-    this.selectedIndex = index
-  }
+
 
   resetStyling(){
     this.color = null
@@ -179,5 +183,48 @@ export class AppComponent {
 
   retrunArray(){
     return [1,2,3,45]
+  }
+
+  selectedDataByHover : any
+  onMouseHover(event:any){
+    // console.log(event)
+    this.selectedDataByHover = event
+  }
+
+  addId(data:any, index1:any, index2:any){
+    data['id'] = index1 + "_" + index2
+    // console.log(data)
+  }
+
+  // newdrop(event:any){
+  //   console.log(event)
+  // }
+  drop(event:any){
+    event.stopPropagation();
+    event.preventDefault();
+    console.log(event)
+    let data:any = JSON.parse(event.dataTransfer.getData('assciatedData'))
+    
+    for(let i = 0; i < data.innerItemCount ; i++){
+      data.component.push({index:i,values:[]})
+    }
+    console.log(this.completed)
+    this.completed.push(data)
+  }
+
+  allowDrop(ev:any){
+    ev.stopPropagation();
+    ev.preventDefault();
+  }
+
+  dragStart(event:any, data:any){
+    // console.log(event, data)
+    event.dataTransfer.setData('assciatedData', JSON.stringify(data));
+    // console.log(JSON.parse(event.dataTransfer.setData('assciatedData')));
+    event.stopPropagation();
+  }
+
+  Submit(){
+    console.log(this.completed)
   }
 }
