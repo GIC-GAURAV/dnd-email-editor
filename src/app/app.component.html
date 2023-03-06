@@ -6,15 +6,17 @@
            #doneList="cdkDropList"
            cdkDragBoundary=".done-container"
            [cdkDropListData]="completed"
-           (cdkDropListDropped)="drop($event)"
-           
-           >
+           (cdkDropListDropped)="drop($event)"           
+          >
         <!-- <h2>Tech learned</h2> -->
         <div *ngFor="let complete of completed; let i = index" cdkDrag>
             <section *ngIf="complete.controlType === 'section'" [class]="'grid-'+complete.sectionType">
               <ng-container *ngFor="let sectionCount of getSectionLength(complete.innerItemCount)">
                 <app-inner-item cdkDropListGroup [completed]="completed" [todos]="todos"></app-inner-item>
               </ng-container>
+            </section>
+            <section *ngIf="complete.controlType != 'section'" [class]="'grid-1'">
+              <app-inner-item cdkDropListGroup [completed]="completed" [todos]="todos"></app-inner-item>
             </section>
         </div>
         <!-- <div *ngFor="let item of retrunArray()">
