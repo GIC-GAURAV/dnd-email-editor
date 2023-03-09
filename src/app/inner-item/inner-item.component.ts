@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Input } from '@angular/core';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,6 +12,7 @@ export class InnerItemComponent implements OnInit {
   constructor() { }
   @Input('completed') complete : any
   @Input('todos') todos : any
+  @Output() valueIndex = new EventEmitter<any>();
   controlsData : any = []
   selectedElement:any
   color:any
@@ -50,5 +51,27 @@ event.stopPropagation()
     console.log(i)
     ev.stopPropagation();
     ev.preventDefault();
+  }
+
+  selectedValueIndex : any
+  getValueIndex(event:any){
+    console.log("Event index : ", event)
+    this.selectedValueIndex = event
+  }
+
+  onSelection(){
+    this.color = ''
+    this.bgcolor = ''
+    console.log("Onselection in inner-item : ", this.selectedValueIndex)
+    this.valueIndex.emit(this.selectedValueIndex)
+    // this.resetStyling()
+    // this.selectedElement = JSON.parse(JSON.stringify(event))
+    // this.selectedIndex = index
+  }
+
+  deleteElement(index:any){
+      console.log(index)
+      console.log(this.complete)
+      this.complete.values = []
   }
 }

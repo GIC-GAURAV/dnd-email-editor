@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, DoCheck} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CommonService } from './Services/common.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,10 @@ export class AppComponent {
   title = 'Drag & Drop in Angular 7';
   website = 'https://samorgill.com';
   controlsData : any = []
+  selectedComponentIndex:any
+  objIndex : any
+  isStyleWindowShow = false
+  fileSrc : any
   todos = [
     {
       name: 'Section',
@@ -46,9 +51,9 @@ export class AppComponent {
       name: 'Image',
       controlType:'image',
       display : true,
-      src : 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80',
+      src : '',
       styles:{
-        width:'130px'
+        width:'100%'
       }
     }
   ];
@@ -127,45 +132,29 @@ export class AppComponent {
     'number'
   ]
   inputtype:any
-  // drop(event: CdkDragDrop<string[]>) {
-    
-  //   if (event.previousContainer === event.container) {
-  //     //console.log(event)
-  //     moveItemInArray(event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex);
-  //   } else {
-  //     console.log(event);
-  //     console.log(event.container.data[event.container.data.length - 1])
-  //     transferArrayItem(event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex, event.currentIndex);
-  //       console.log(this.completed)
-  //       if(this.todos.length < 4){
-  //         this.todos.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-  //       }
-  //       if(this.sectionList.length < 7){
-  //         this.sectionList.splice(event.previousIndex, 0, this.completed[event.currentIndex])
-  //       }
-  //       this.controlsData.push(event.container.data[event.container.data.length - 1])
-  //   }
-  //   console.log(this.controlsData)
-  // }
+
+  constructor(private _commSrv? : CommonService){
+
+  }
+
+  elementType : string = ''
 
   Apply(){
-    console.log(this.selectedElement)
-    let temp:any =  JSON.parse(JSON.stringify(this.completed[this.selectedIndex]))
+    // console.log(this.selectedElement)
+    let temp:any =  JSON.parse(JSON.stringify(this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex]))
     console.log(temp)
+    console.log("color value : ", this.color)
     temp!.styles['color'] = this.color ? this.color : temp!.styles.color
     temp!.styles['background-color'] = this.bgcolor ? this.bgcolor : temp!.styles['background-color']
     temp!.styles['padding'] = this.padding ? this.padding+'px' : temp!.styles['padding']
     temp!.styles['width'] = this.width ? this.width+'px' : temp!.styles['width']
     temp!.styles['border-radius'] = this.border_radius ? this.border_radius+'%' : temp!.styles['border-radius']
-    this.completed.splice(this.selectedIndex, 1, temp)
+    this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex] = temp
+    console.log(temp)
+    console.log(this.completed)
+
+    // this.completed.splice(this.selectedComponentIndex, 1, temp)
   }
-
-  selectedIndex:any
-
 
   resetStyling(){
     this.color = null
@@ -181,24 +170,6 @@ export class AppComponent {
     return arr;
   }
 
-  retrunArray(){
-    return [1,2,3,45]
-  }
-
-  selectedDataByHover : any
-  onMouseHover(event:any){
-    // console.log(event)
-    this.selectedDataByHover = event
-  }
-
-  addId(data:any, index1:any, index2:any){
-    data['id'] = index1 + "_" + index2
-    // console.log(data)
-  }
-
-  // newdrop(event:any){
-  //   console.log(event)
-  // }
   drop(event:any){
     event.stopPropagation();
     event.preventDefault();
@@ -226,5 +197,62 @@ export class AppComponent {
 
   Submit(){
     console.log(this.completed)
+    let htmlcontent = document.getElementById('htmlWrapper').outerHTML.replace(/<!--[\s\S]*?-->/g, '');
+    console.log(htmlcontent)
+  }
+
+  onSelection(event, compIndex1, objIndex){
+    console.log(event, compIndex1)
+    // this.resetStyling()
+    // this.selectedElement = JSON.parse(JSON.stringify(event))
+    this.selectedComponentIndex = compIndex1
+    this.objIndex = objIndex
+    this._commSrv.elementType.subscribe((res:any) => {
+      this.elementType = res
+      console.log(res)
+    })
+
+    console.log("obj component value", objIndex, compIndex1, this.selectedValueIndex)
+    console.log("Current object : ", this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex])
+    if(this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex]){
+      this.isStyleWindowShow = true
+    }
+    this._commSrv.selectedIndexs.next({'objIndex': this.objIndex, 'selectedComponentIndex': this.selectedComponentIndex, 'selectedValueIndex': this.selectedValueIndex})
+  }
+
+  selectedValueIndex : any
+  getValueIndex(index){
+    this.selectedValueIndex = index
+    // console.log(this.selectedValueIndex)
+  }
+
+  closeStyleWindow(){
+    this.isStyleWindowShow = false
+  }
+
+  deleteElement(event : any, i:any, j : any){
+    event.stopPropagation();
+    event.preventDefault();
+    this.completed.splice(i, 1)
+  }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+    
+      reader.onload = () => {
+   
+        this.fileSrc = reader.result as string;
+        console.log(this.fileSrc)
+        this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex].src = this.fileSrc
+        console.log(this.completed[this.objIndex].component[this.selectedComponentIndex].values[this.selectedValueIndex])
+      };
+   
+    }
+
+
   }
 }

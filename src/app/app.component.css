@@ -3,16 +3,24 @@
 }
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 .done-container{
-  width: 70%;
-  margin: 0 25px;
+  width: 70vw;
+  padding: 20px 0;
   min-height: 100px;
   height: fit-content;
   margin-top: 30px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.drop-area{
+  width: 80%;
+  max-width: 80%;
+  min-height: 100px;
+  height: 100% !important;
+  background-color: #585858;
 }
 .cdk-drop-list{
   min-height: 100px;
@@ -27,16 +35,21 @@
   display: none;
 }
 .todo-container{
-  width: 25%;
+  width: 25vw;
   height: 100vh;
 }
 
 .detail-container{
-  display: none !important;
-  width: 250px;
+  /* width: 250px; */
   position: absolute;
   right: 0;
   z-index: 2;
+  background-color: RGBA(0, 0, 0) !important;
+  height: 100vh;
+  overflow: auto;
+}
+.detail-container .list{
+  position: relative;
 }
 
 h2 {
@@ -146,7 +159,7 @@ input{
 }
 .grid-2{
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 50%);
   width: 100%;
 }
 .grid-3{
@@ -248,4 +261,27 @@ section{
 }
 section:hover .delete-btn{
   display: block;
+}
+
+.closeStyleWindow{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.upload button{
+  padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    font-size: 16px;
+    background-color: rgb(18, 142, 214);
+    border-radius: 0.2rem;
 }
